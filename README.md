@@ -26,7 +26,10 @@ func main() {
 		}
 	`
 
-	jsonHelper := jsonhelper.NewJSONHelper([]byte(json))
+	jsonHelper, err := jsonhelper.NewJSONHelper([]byte(json))
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println(jsonHelper.Map()["string"].String())
 	fmt.Println(jsonHelper.Map()["number"].Number())

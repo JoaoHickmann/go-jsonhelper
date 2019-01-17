@@ -2,6 +2,7 @@ package jsonhelper
 
 import (
 	"encoding/json"
+	"errors"
 )
 
 type jsonField struct {
@@ -18,18 +19,18 @@ type JSONHelper interface {
 	Array() []JSONHelper
 }
 
-func NewJSONHelper(data []byte) JSONHelper {
+func NewJSONHelper(data []byte) (JSONHelper, error) {
 	var jsonResponse map[string]interface{}
 	err := json.Unmarshal(data, &jsonResponse)
 	if err != nil {
 		var jsonResponse2 []interface{}
 		err := json.Unmarshal(data, &jsonResponse2)
 		if err != nil {
-			panic("Invalid JSON!")
+			return nil, errors.New("invalid JSON")
 		}
-		return jsonField{jsonResponse2}
+		return jsonField{jsonResponse2}, nil
 	}
-	return jsonField{jsonResponse}
+	return jsonField{jsonResponse}, nil
 }
 
 func (jsonfield jsonField) Data() interface{} {
