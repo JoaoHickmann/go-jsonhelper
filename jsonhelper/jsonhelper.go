@@ -37,43 +37,35 @@ func (jsonfield jsonField) Data() interface{} {
 	return jsonfield.data
 }
 
-func (jsonfield jsonField) Bool() bool {
-	result, _ := jsonfield.data.(bool)
-	return result
+func (jsonfield jsonField) Bool() (result bool) {
+	result, _ = jsonfield.data.(bool)
+	return
 }
 
-func (jsonfield jsonField) String() string {
-	result, _ := jsonfield.data.(string)
-	return result
+func (jsonfield jsonField) String() (result string) {
+	result, _ = jsonfield.data.(string)
+	return
 }
 
-func (jsonfield jsonField) Number() float64 {
-	result, _ := jsonfield.data.(float64)
-	return result
+func (jsonfield jsonField) Number() (result float64) {
+	result, _ = jsonfield.data.(float64)
+	return
 }
 
-func (jsonfield jsonField) Array() []JSONHelper {
-	result := []JSONHelper{}
+func (jsonfield jsonField) Array() (result []JSONHelper) {
+	result = []JSONHelper{}
 
-	data, ok := jsonfield.data.([]interface{})
-	if !ok {
-		return result
-	}
-
+	data, _ := jsonfield.data.([]interface{})
 	for _, value := range data {
 		result = append(result, jsonField{value})
 	}
 	return result
 }
 
-func (jsonfield jsonField) Map() map[string]JSONHelper {
-	result := map[string]JSONHelper{}
+func (jsonfield jsonField) Map() (result map[string]JSONHelper) {
+	result = map[string]JSONHelper{}
 
-	data, ok := jsonfield.data.(map[string]interface{})
-	if !ok {
-		return result
-	}
-
+	data, _ := jsonfield.data.(map[string]interface{})
 	for key, value := range data {
 		result[key] = jsonField{value}
 	}
