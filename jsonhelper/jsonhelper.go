@@ -38,28 +38,43 @@ func (jsonfield jsonField) Data() interface{} {
 }
 
 func (jsonfield jsonField) Bool() bool {
-	return jsonfield.data.(bool)
+	result, _ := jsonfield.data.(bool)
+	return result
 }
 
 func (jsonfield jsonField) String() string {
-	return jsonfield.data.(string)
+	result, _ := jsonfield.data.(string)
+	return result
 }
 
 func (jsonfield jsonField) Number() float64 {
-	return jsonfield.data.(float64)
+	result, _ := jsonfield.data.(float64)
+	return result
 }
 
 func (jsonfield jsonField) Array() []JSONHelper {
-	result := make([]JSONHelper, 0)
-	for _, value := range jsonfield.data.([]interface{}) {
+	result := []JSONHelper{}
+
+	data, ok := jsonfield.data.([]interface{})
+	if !ok {
+		return result
+	}
+
+	for _, value := range data {
 		result = append(result, jsonField{value})
 	}
 	return result
 }
 
 func (jsonfield jsonField) Map() map[string]JSONHelper {
-	result := make(map[string]JSONHelper)
-	for key, value := range jsonfield.data.(map[string]interface{}) {
+	result := map[string]JSONHelper{}
+
+	data, ok := jsonfield.data.(map[string]interface{})
+	if !ok {
+		return result
+	}
+
+	for key, value := range data {
 		result[key] = jsonField{value}
 	}
 	return result
